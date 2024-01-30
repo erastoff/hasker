@@ -4,8 +4,8 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: hasker_db
-      POSTGRES_USER: hasker_user
-      POSTGRES_PASSWORD: hasker_password
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "5432:5432"
