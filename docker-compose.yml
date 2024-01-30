@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: hasker_db
+      POSTGRES_USER: hasker_user
+      POSTGRES_PASSWORD: hasker_password
+    ports:
+      - "5432:5432"
