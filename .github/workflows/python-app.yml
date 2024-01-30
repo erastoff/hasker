@@ -35,4 +35,4 @@ jobs:
         flake8 .
     - name: Test with unittest
       run: |
-        python -m unittest
+        python manage.py test
