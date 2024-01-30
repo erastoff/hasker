@@ -45,4 +45,4 @@ jobs:
         flake8 .
     - name: Test with unittest
       run: |
-        python manage.py test
+        python manage.py test --settings=hasker.settings_test
