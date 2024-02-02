@@ -60,58 +60,21 @@ class QuestionModelTest(TestCase):
                 pk=1,
             )
 
-    #     def test_slug_value(self):
-    #         """
-    #         Test that the slug is automatically added to the movie on creation.
-    #         """
-    #         expected = slugify(self.movie.title)
-    #         actual = self.movie.slug
-    #         self.assertEqual(expected, actual)
-    #
-    #     def test_slug_value_for_duplicate_title(self):
-    #         """
-    #         Test that two movies with identical titles get unique slugs.
-    #         """
-    #         movie2 = Movie.objects.create(
-    #             title=self.movie.title, release_date=self.RELEASE_DATE, api_id=99
-    #         )
-    #
-    #         self.assertNotEqual(self.movie.slug, movie2.slug)
-    #
     def test_added_date_automatically(self):
         """Test that the date is automatically saved on creation"""
         self.assertTrue(type(self.question.created_at), datetime)
 
-    #     def test_active_false_by_default(self):
-    #         """Test that our booleans are set to false by default"""
-    #         self.assertTrue(type(self.movie.active) == bool)
-    #         self.assertFalse(self.movie.active)
-    #
-    #     def test_deleted_false_by_default(self):
-    #         """Test that our booleans are set to false by default"""
-    #         self.assertTrue(type(self.movie.deleted) == bool)
-    #         self.assertFalse(self.movie.deleted)
-    #
     def test_str(self):
         """Test the __str__ method"""
         self.assertEqual(str(self.question), self.QUESTION_TITLE)
 
+    def test_tag_values(self):
+        self.assertEqual(str(self.tag1), self.TAG_WORD_1)
+        self.assertEqual(str(self.tag2), self.TAG_WORD_2)
 
-#
-# class TestGenre(TestCase):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         cls.genre = Genre.objects.create(name="Western", api_id=1)
-#
-#     def test_has_name(self):
-#         self.assertEqual(self.genre.name, "Western")
-#
-#     def test_has_api_id(self):
-#         self.assertEqual(self.genre.api_id, 1)
-#
-#     def test_str(self):
-#         expected = "Western"
-#         actual = str(self.genre)
-#
-#         self.assertEqual(expected, actual)
+    def test_answer(self):
+        self.assertTrue(self.answer.content, self.ANSWER_CONTENT)
+        self.assertTrue(self.answer.author, self.user2)
+        self.assertTrue(self.answer.author, self.user2)
+        self.assertTrue(type(self.answer.created_at), datetime)
+        self.assertTrue(type(self.answer.question), Question)
