@@ -1,0 +1,39 @@
+{% extends 'root.html' %}
+
+{% block title %}
+    HASKER: ASK!
+{% endblock %}
+
+
+{% block body %}
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#tab1" data-bs-toggle="pill">Вкладка 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#tab2" data-bs-toggle="pill">Вкладка 2</a>
+                </li>
+            </ul>
+            <form class="button">
+                    <button type="button" class="btn btn-secondary">ASK!</button>
+            </form>
+        </div>
+    </nav>
+</div>
+<h1>Question List</h1>
+  {% if object_list %}
+    <ul>
+      {% for question in question_list %}
+      <li>
+        <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+        ({{question.author}})
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no question now.</p>
+  {% endif %}
+{% endblock %}
