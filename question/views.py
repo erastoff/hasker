@@ -1,3 +1,9 @@
-# from django.shortcuts import render
+from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from question.models import Question
+
+
+class QuestionListView(ListView):
+    model = Question
+    template_name = "question/index.html"
