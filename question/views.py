@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, DetailView
 
 from question.models import Question
 
@@ -20,3 +20,19 @@ class QuestionListView(ListView):
             questions = Question.objects.all()
         context = {"question_list": questions, "active_button": active_button}
         return render(request, self.template_name, context)
+
+
+class QuestionCreateView(CreateView):
+    pass
+
+
+class QuestionDetailView(DetailView):
+    model = Question
+    template_name = "question/detail.html"
+    context_object_name = "question"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = context["question"]
+        context["answers"] = question.answers.all()
+        return context

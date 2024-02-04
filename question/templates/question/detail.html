@@ -1,0 +1,21 @@
+{% extends 'root.html' %}
+
+{% block title %}
+    HASKER: {{ question.title }}
+{% endblock %}
+
+{% block body %}
+<h1>{{ question.title }}</h1>
+    <h3>{{ question.content }}</h3>
+<div class="list-group">
+{% if answers %}
+    {% for answer in answers %}
+        <li> {{ answer.content }} </li>
+    {% endfor %}
+{% else %}
+    There are no answers now.
+{% endif %}
+</div>
+{% if user.is_superuser %}  {% endif %}
+
+{% endblock %}

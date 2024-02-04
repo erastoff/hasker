@@ -32,24 +32,12 @@
     </nav>
 </div>
 
-{#<form method="GET" action="{% url 'filter_items' %}">#}
-{#    <button type="submit" name="filter" value="option1">Опция 1</button>#}
-{#    <button type="submit" name="filter" value="option2">Опция 2</button>#}
-{#</form>#}
-{##}
-{#<div id="filtered-items-container">#}
-{#    <!-- Список элементов, которые будут отфильтрованы -->#}
-{#    {% for item in filtered_items %}#}
-{#        <p>{{ item }}</p>#}
-{#    {% endfor %}#}
-{#</div>#}
-
 <h1>Question List</h1>
   {% if question_list %}
     <ul>
       {% for question in question_list %}
       <li>
-        <a href="{{ question.get_absolute_url }}">{{ question.title }}</a>
+        <a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a>
         ({{question.author}})
       </li>
       {% endfor %}

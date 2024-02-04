@@ -26,7 +26,9 @@ class Answer(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     is_right = models.BooleanField(default=False)
-    question = models.ForeignKey(to=Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(
+        to=Question, on_delete=models.CASCADE, related_name="answers"
+    )
 
     def __str__(self):
         return f"Question {self.question} Answer {self.pk}"
