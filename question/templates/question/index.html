@@ -10,12 +10,20 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <ul class="nav nav-pills">
+                <form method="post" class="nav-pills-form">
+                {% csrf_token %}
                 <li class="nav-item">
-                    <a class="nav-link active" href="#tab1" data-bs-toggle="pill">Вкладка 1</a>
+{#                    <a class="nav-link active" href="#tab1" data-bs-toggle="pill">Вкладка 1</a>#}
+                    <button type="submit" class="nav-link {% if active_button == 'option1' %}active{% endif %}" name="filter_option" value="option1">New questions</button>
                 </li>
+                </form>
+                <form method="post" class="nav-pills-form">
+                {% csrf_token %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#tab2" data-bs-toggle="pill">Вкладка 2</a>
+{#                    <a class="nav-link" href="#tab2" data-bs-toggle="pill">Вкладка 2</a>#}
+                    <button type="submit" class="nav-link {% if active_button == 'option2' %}active{% endif %}" name="filter_option" value="option2">Hot questions</button>
                 </li>
+                </form>
             </ul>
             <form class="button">
                     <button type="button" class="btn btn-secondary">ASK!</button>
@@ -23,8 +31,21 @@
         </div>
     </nav>
 </div>
+
+{#<form method="GET" action="{% url 'filter_items' %}">#}
+{#    <button type="submit" name="filter" value="option1">Опция 1</button>#}
+{#    <button type="submit" name="filter" value="option2">Опция 2</button>#}
+{#</form>#}
+{##}
+{#<div id="filtered-items-container">#}
+{#    <!-- Список элементов, которые будут отфильтрованы -->#}
+{#    {% for item in filtered_items %}#}
+{#        <p>{{ item }}</p>#}
+{#    {% endfor %}#}
+{#</div>#}
+
 <h1>Question List</h1>
-  {% if object_list %}
+  {% if question_list %}
     <ul>
       {% for question in question_list %}
       <li>
