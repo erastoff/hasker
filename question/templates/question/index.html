@@ -35,12 +35,20 @@
 <h1>Question List</h1>
   {% if question_list %}
     <ul>
-      {% for question in question_list %}
-      <li>
-        <a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a>
-        ({{question.author}})
-      </li>
-      {% endfor %}
+{#      {% for question in question_list %}#}
+{#      <li>#}
+{#        <a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a>#}
+{#        ({{question.author}})#}
+{#      </li>#}
+{#      {% endfor %}#}
+        {% for question in question_list %}
+          <div>
+            <span>{{ question.num_answers }}</span> <!-- Количество ответов -->
+            <h3><a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a></h3>
+            <p>{{ question.content }}</p> ({{ question.num_answers }})
+          </div>
+
+        {% endfor %}
     </ul>
   {% else %}
     <p>There are no question now.</p>
