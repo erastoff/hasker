@@ -15,19 +15,10 @@ class QuestionCreateForm(forms.ModelForm):
             "tags",
         )
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-            for name, field in self.fields.items():
-                widget: Widget = field.widget
-                widget.attrs["class"] = "form-control"
-                if name == "created_at":
-                    self.fields["created_at"].widget = widgets.DateInput(
-                        attrs={
-                            "type": "date",
-                            "placeholder": "yyyy-mm-dd (DOB)",
-                            "class": "form-control",
-                        }
-                    )
-                if DEBUG:
-                    print(name, field, field.widget)
+        for field in self.fields.items():
+            print(field)
+            widget: Widget = field[1].widget
+            widget.attrs["class"] = "form-control"

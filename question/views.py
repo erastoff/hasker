@@ -41,7 +41,6 @@ class QuestionListView(ListView):
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
     template_name = "question/add_question.html"
-    # fields = ["title", "content", "tags"]
     form_class = QuestionCreateForm
     success_url = reverse_lazy("question:index")
 
