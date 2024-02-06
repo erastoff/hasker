@@ -1,0 +1,21 @@
+{% extends 'root.html' %}
+
+{% block title %}
+    HASKER: NEW QUESTION
+{% endblock %}
+
+{% block body %}
+    <h1>Create Question</h1>
+
+<form method="post">
+  {% csrf_token %}
+    {{ form.as_p }}
+  <button class="btn btn-primary" type="submit">
+    Create
+  </button>
+
+</form>
+<div class="my-3" >
+  <a href="{% url 'question:index' %}">Back to questions</a>
+</div>
+{% endblock %}

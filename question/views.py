@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.db.models import Count
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 
+from question.forms import QuestionCreateForm
 from question.models import Question
 
 
@@ -35,8 +38,16 @@ class QuestionListView(ListView):
         return render(request, self.template_name, context)
 
 
-class QuestionCreateView(CreateView):
-    pass
+class QuestionCreateView(LoginRequiredMixin, CreateView):
+    model = Question
+    template_name = "question/add_question.html"
+    # fields = ["title", "content", "tags"]
+    form_class = QuestionCreateForm
+    success_url = reverse_lazy("question:index")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 class QuestionDetailView(DetailView):
