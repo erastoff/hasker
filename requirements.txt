@@ -3,6 +3,7 @@ black==24.1.1
 click==8.1.7
 Django==5.0.1
 flake8==7.0.0
+humanize==4.9.0
 mccabe==0.7.0
 mypy-extensions==1.0.0
 packaging==23.2

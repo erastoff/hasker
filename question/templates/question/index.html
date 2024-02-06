@@ -1,4 +1,5 @@
 {% extends 'root.html' %}
+{% load humanize %}
 
 {% block title %}
     HASKER: ASK!
@@ -13,14 +14,12 @@
                 <form method="post" class="nav-pills-form">
                 {% csrf_token %}
                 <li class="nav-item">
-{#                    <a class="nav-link active" href="#tab1" data-bs-toggle="pill">Вкладка 1</a>#}
                     <button type="submit" class="nav-link {% if active_button == 'option1' %}active{% endif %}" name="filter_option" value="option1">New questions</button>
                 </li>
                 </form>
                 <form method="post" class="nav-pills-form">
                 {% csrf_token %}
                 <li class="nav-item">
-{#                    <a class="nav-link" href="#tab2" data-bs-toggle="pill">Вкладка 2</a>#}
                     <button type="submit" class="nav-link {% if active_button == 'option2' %}active{% endif %}" name="filter_option" value="option2">Hot questions</button>
                 </li>
                 </form>
@@ -32,21 +31,30 @@
     </nav>
 </div>
 
-<h1>Question List</h1>
+<br>
   {% if question_list %}
     <ul>
-{#      {% for question in question_list %}#}
-{#      <li>#}
-{#        <a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a>#}
-{#        ({{question.author}})#}
-{#      </li>#}
-{#      {% endfor %}#}
         {% for question in question_list %}
-          <div>
-            <span>{{ question.num_answers }}</span> <!-- Количество ответов -->
-            <h3><a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a></h3>
-            <p>{{ question.content }}</p> ({{ question.num_answers }})
-          </div>
+            <div class="container text-center">
+              <div class="row">
+                <div class="col-1">
+                    <h5>Zero</h5>
+                    Quiz rating
+                </div>
+                <div class="col-2">
+                    <h5>{{ question.num_answers }}</h5>
+                    answers
+                </div>
+                <div class="col-6">
+                    <h3><a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a></h3>
+                    <p>{{ question.content }}</p>
+                </div>
+                <div class="col-2">
+                    <h5>{{ question.author }}</h5>
+                    {{ question.created_at|naturaltime}}
+                </div>
+              </div>
+            </div>
 
         {% endfor %}
     </ul>
