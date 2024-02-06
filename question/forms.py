@@ -1,7 +1,6 @@
 from django import forms
-from django.forms import widgets, Widget
+from django.forms import Widget
 
-from hasker.settings import DEBUG
 from question.models import Question
 
 
