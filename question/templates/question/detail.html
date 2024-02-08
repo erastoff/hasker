@@ -5,17 +5,50 @@
 {% endblock %}
 
 {% block body %}
-<h1>{{ question.title }}</h1>
-    <h3>{{ question.content }}</h3>
-<div class="list-group">
-{% if answers %}
-    {% for answer in answers %}
-        <li> {{ answer.content }} </li>
-    {% endfor %}
-{% else %}
-    There are no answers now.
-{% endif %}
-</div>
-{% if user.is_superuser %}  {% endif %}
+    <h1>{{ question.title }}</h1>
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-2">
+            <h5>Zero</h5>
+            Quiz rating
+        </div>
+        <div class="col-6">
+            <h3>{{ question.content }}</h3>
+            <div class="container text-center">
+              <div class="row row-cols-auto">
+                {% for tag in question.tags.all %}
+{#                    <div class="badge bg-secondary">{{ tag.tag_word }}</div>#}
+                    <span class="badge rounded-pill text-bg-primary">{{ tag.tag_word }}</span>
+                 {% endfor %}
+                  <p class="text-lg-end">
+
+                  <div class="badge bg-secondary">{{ question.author }}</div></p>
+              </div>
+            </div>
+        </div>
+      <hr>
+        {% if answers %}
+            {% for answer in answers %}
+                <div class="container text-center">
+                  <div class="row">
+                    <div class="col-2">
+                        <h5>Zero</h5>
+                        Quiz rating
+                    </div>
+                    <div class="col-6">
+                        <li> {{ answer.content }} </li>
+                    </div>
+                  </div>
+                </div>
+                 <hr>
+            {% endfor %}
+        {% else %}
+            There are no answers now.
+        {% endif %}
+        {% if user.is_superuser %}  {% endif %}
+      </div>
+    </div>
+
+
 
 {% endblock %}
