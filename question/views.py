@@ -61,6 +61,19 @@ class QuestionDetailView(DetailView):
         return context
 
 
+class QuestionSearchView(ListView):
+    model = Question
+    template_name = "question/question_search.html"
+    context_object_name = "search_results"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        print("QUERY: ", query)
+        if query:
+            return Question.objects.filter(title__icontains=query)
+        return Question.objects.none()
+
+
 def create_answer(request, pk):
     if request.method == "POST":
         print("request: ", request)

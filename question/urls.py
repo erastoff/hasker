@@ -5,6 +5,7 @@ from question.views import (
     QuestionDetailView,
     QuestionCreateView,
     create_answer,
+    QuestionSearchView,
 )
 
 app_name = "question"
@@ -14,4 +15,5 @@ urlpatterns = [
     path("question/<int:pk>/", QuestionDetailView.as_view(), name="question_detail"),
     path("question/add/", QuestionCreateView.as_view(), name="question_create"),
     path("question/<int:pk>/add_answer/", create_answer, name="add_answer"),
+    path("search/", QuestionSearchView.as_view(), name="question_search"),
 ]

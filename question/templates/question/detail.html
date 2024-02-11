@@ -27,7 +27,7 @@
               <div class="row row-cols-auto">
                 {% for tag in question.tags.all %}
 {#                    <div class="badge bg-secondary">{{ tag.tag_word }}</div>#}
-                    <span class="badge rounded-pill text-bg-primary">{{ tag.tag_word }}</span>
+                    <span class="badge rounded-pill text-bg-warning">{{ tag.tag_word }}</span>
                  {% endfor %}
                   <p class="text-lg-end">
                   <div class="badge bg-secondary ms-auto">{{ question.author }}</div></p>
