@@ -74,17 +74,18 @@
         {% if user.is_superuser %}  {% endif %}
       </div>
     </div>
-
-    <div class="container">
-        <h3>Your answer</h3>
-        <form action="{% url "question:add_answer" question.pk %}" method="post">
-          {% csrf_token %}
-            <div class="mb-3">
-                <label for="text_input" class="form-label">Enter answer:</label>
-                <input type="text" class="form-control" id="text_input" name="text_input">
-            </div>
-            <button type="submit" class="btn btn-primary">Answer</button>
-        </form>
-    </div>
+    {% if user.is_authenticated %}
+        <div class="container">
+            <h3>Your answer</h3>
+            <form action="{% url "question:add_answer" question.pk %}" method="post">
+              {% csrf_token %}
+                <div class="mb-3">
+                    <label for="text_input" class="form-label">Enter answer:</label>
+                    <input type="text" class="form-control" id="text_input" name="text_input">
+                </div>
+                <button type="submit" class="btn btn-primary">Answer</button>
+            </form>
+        </div>
+    {% endif %}
 
 {% endblock %}
