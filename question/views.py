@@ -75,6 +75,17 @@ class QuestionSearchView(ListView):
         return Question.objects.none()
 
 
+class QuestionTagSearchView(ListView):
+    model = Question
+    template_name = "question/question_search.html"
+    context_object_name = "search_tag_results"
+
+    def get_queryset(self):
+        tag_word = self.kwargs.get("tag_word")
+        queryset = Question.objects.filter(tags__tag_word=tag_word)
+        return queryset
+
+
 def create_answer(request, pk):
     if request.method == "POST":
         print("request: ", request)
