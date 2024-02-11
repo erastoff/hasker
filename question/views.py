@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 
 from question.forms import QuestionCreateForm
-from question.models import Question
+from question.models import Question, Answer
 
 
 class QuestionListView(ListView):
@@ -59,3 +60,16 @@ class QuestionDetailView(DetailView):
         question = context["question"]
         context["answers"] = question.answers.all()
         return context
+
+
+def create_answer(request, pk):
+    if request.method == "POST":
+        print("request: ", request)
+        print("request method: ", request.method)
+        print("request text: ", request.POST.get("text_input"))
+        Answer.objects.create(
+            content=request.POST.get("text_input"),
+            author=request.user,
+            question=Question.objects.get(pk=pk),
+        )
+        return redirect("question:question_detail", pk=pk)
