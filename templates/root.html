@@ -65,9 +65,41 @@
   </div>
 </nav>
     <div class="container">
-        {% block body %}
-        <h1>Hello Hasker</h1>
-        {% endblock %}
+{#        {% block body %}#}
+{#        <h1>Hello Hasker</h1>#}
+{#        {% endblock %}#}
+
+    <div class="container-fluid">
+        <div class="row">
+        <!-- Основной контент -->
+            <div class="col">
+                {% block body %}
+                <h1>Hello Hasker</h1>
+                {% endblock %}
+            </div>
+            <!-- Фиксированный столбец справа -->
+                <div class="col-2 fixed-column">
+                    <div class="container text-center" style="padding-top: 80px">
+                          <div class="row row-cols-1">
+                            <div class="col">
+                                <form class="button">
+                                    <a href="{% url 'question:question_create' %}" class="btn btn-secondary">ASK!</a>
+                                </form>
+                            </div>
+                            <div class="col" style="padding-top: 80px">
+                                <p>This column will remain fixed on the right side of the page.</p>
+                            </div>
+                          </div>
+                        </div>
+
+
+{#                        <form class="button">#}
+{#                            <a href="{% url 'question:question_create' %}" class="btn btn-secondary">ASK!</a>#}
+{#                        </form>#}
+{#                    <p>This column will remain fixed on the right side of the page.</p>#}
+                </div>
+    </div>
+</div>
     </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
