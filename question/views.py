@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 
@@ -68,9 +68,10 @@ class QuestionSearchView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        print("QUERY: ", query)
         if query:
-            return Question.objects.filter(title__icontains=query)
+            return Question.objects.filter(
+                Q(title__icontains=query) | Q(content__icontains=query)
+            )
         return Question.objects.none()
 
 
