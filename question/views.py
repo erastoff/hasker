@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.urls import reverse_lazy
