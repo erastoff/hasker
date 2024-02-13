@@ -71,7 +71,7 @@ class QuestionSearchView(ListView):
         if query:
             return Question.objects.filter(
                 Q(title__icontains=query) | Q(content__icontains=query)
-            )
+            ).annotate(num_answers=Count("answers"))
         return Question.objects.none()
 
 
@@ -82,7 +82,9 @@ class QuestionTagSearchView(ListView):
 
     def get_queryset(self):
         tag_word = self.kwargs.get("tag_word")
-        queryset = Question.objects.filter(tags__tag_word=tag_word)
+        queryset = Question.objects.filter(tags__tag_word=tag_word).annotate(
+            num_answers=Count("answers")
+        )
         return queryset
 
 

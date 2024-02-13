@@ -18,7 +18,7 @@
       <div class="row">
         <div class="col-2">
             <a class="btn btn-outline-warning" href="#" role="button">Up</a>
-                <h5>Zero</h5>
+                <h5>{{ question.votes }}</h5>
             <a class="btn btn-outline-dark" href="#" role="button">Down</a>
         </div>
         <div class="col-9">
@@ -41,7 +41,7 @@
                   <div class="row">
                     <div class="col-2 align-items-center">
                         <a class="btn btn-outline-warning" href="#" role="button">Up</a>
-                            <h5>Zero</h5>
+                            <h5>{{ answer.votes }}</h5>
                         <a class="btn btn-outline-dark" href="#" role="button">Down</a>
                         {% if answer.is_right %}
                             <h3> ★ </h3>
