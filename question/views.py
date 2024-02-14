@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
@@ -99,3 +100,27 @@ def create_answer(request, pk):
             question=Question.objects.get(pk=pk),
         )
         return redirect("question:question_detail", pk=pk)
+
+
+def incr_vote_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.incr_vote()
+    return JsonResponse({"votes": question.votes})
+
+
+def decr_vote_question(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.decr_vote()
+    return JsonResponse({"votes": question.votes})
+
+
+def incr_vote_answer(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    answer.incr_vote()
+    return JsonResponse({"votes": answer.votes})
+
+
+def decr_vote_answer(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    answer.decr_vote()
+    return JsonResponse({"votes": answer.votes})

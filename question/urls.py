@@ -7,6 +7,10 @@ from question.views import (
     create_answer,
     QuestionSearchView,
     QuestionTagSearchView,
+    incr_vote_question,
+    decr_vote_question,
+    decr_vote_answer,
+    incr_vote_answer,
 )
 
 app_name = "question"
@@ -21,5 +25,19 @@ urlpatterns = [
         "tag/<str:tag_word>/",
         QuestionTagSearchView.as_view(),
         name="question_tag_search",
+    ),
+    path("question/<int:pk>/incr_vote/", incr_vote_question, name="incr_vote_question"),
+    path(
+        "question/<int:pk>/decr_vote/",
+        decr_vote_question,
+        name="decr_vote_question",
+    ),
+    path(
+        "question/<int:pk>/incr_answer_vote/", incr_vote_answer, name="incr_vote_answer"
+    ),
+    path(
+        "question/<int:pk>/decr_answer_vote/",
+        decr_vote_answer,
+        name="decr_vote_answer",
     ),
 ]

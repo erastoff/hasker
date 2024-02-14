@@ -21,6 +21,14 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+    def incr_vote(self):
+        self.votes += 1
+        self.save()
+
+    def decr_vote(self):
+        self.votes -= 1
+        self.save()
+
 
 class Answer(models.Model):
     content = models.TextField()
@@ -34,3 +42,11 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"Question {self.question} Answer {self.pk}"
+
+    def incr_vote(self):
+        self.votes += 1
+        self.save()
+
+    def decr_vote(self):
+        self.votes -= 1
+        self.save()

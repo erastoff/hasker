@@ -17,9 +17,15 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-2">
-            <a class="btn btn-outline-warning" href="#" role="button">Up</a>
-                <h5>{{ question.votes }}</h5>
-            <a class="btn btn-outline-dark" href="#" role="button">Down</a>
+{#            <a class="btn btn-outline-warning" href="{% url 'question:incr_vote_question' question.pk %}" role="button">Up</a>#}
+{#                <h5>{{ question.votes }}</h5>#}
+{#            <a class="btn btn-outline-dark" href="{% url 'question:decr_vote_question' question.pk %}" role="button">Down</a>#}
+            <!-- Кнопка для увеличения голоса -->
+            <button class="btn btn-outline-warning incr-vote-btn" data-question-id="{{ question.pk }}">Up</button>
+                <!-- Отображение количества голосов -->
+                <h5 data-question-id="{{ question.pk }}">{{ question.votes }}</h5>
+            <!-- Кнопка для уменьшения голоса -->
+            <button class="btn btn-outline-dark decr-vote-btn" data-question-id="{{ question.pk }}">Down</button>
         </div>
         <div class="col-9">
             <h6><div style="text-align: justify;">{{ question.content }}</div></h6>
@@ -40,9 +46,16 @@
                 <div class="container text-center">
                   <div class="row">
                     <div class="col-2 align-items-center">
-                        <a class="btn btn-outline-warning" href="#" role="button">Up</a>
-                            <h5>{{ answer.votes }}</h5>
-                        <a class="btn btn-outline-dark" href="#" role="button">Down</a>
+{#                        <a class="btn btn-outline-warning" href="#" role="button">Up</a>#}
+{#                            <h5>{{ answer.votes }}</h5>#}
+{#                        <a class="btn btn-outline-dark" href="#" role="button">Down</a>#}
+                                <!-- Кнопка для увеличения голоса -->
+                        <button class="btn btn-outline-warning incr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Up</button>
+                            <!-- Отображение количества голосов -->
+                            <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
+                        <!-- Кнопка для уменьшения голоса -->
+                        <button class="btn btn-outline-dark decr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Down</button>
+
                         {% if answer.is_right %}
                             <h3> ★ </h3>
                         {% endif %}
@@ -87,5 +100,84 @@
             </form>
         </div>
     {% endif %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Обработчик клика на кнопке увеличения голоса
+        $(".incr-vote-btn").click(function() {
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            var questionId = $(this).data("question-id");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'question:incr_vote_question' 0 %}".replace('0', questionId),
+                data: {
+                        csrfmiddlewaretoken: csrftoken  // Передаем CSRF-токен в запросе
+                        },
+                dataType: "json",
+                success: function(data) {
+                    // Обновляем отображение количества голосов
+                    $("h5[data-question-id='" + questionId + "']").text(data.votes);
+                }
+            });
+        });
+
+        // Обработчик клика на кнопке уменьшения голоса
+        $(".decr-vote-btn").click(function() {
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            var questionId = $(this).data("question-id");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'question:decr_vote_question' 0 %}".replace('0', questionId),
+                data: {
+                        csrfmiddlewaretoken: csrftoken  // Передаем CSRF-токен в запросе
+                        },
+                dataType: "json",
+                success: function(data) {
+                    // Обновляем отображение количества голосов
+                    $("h5[data-question-id='" + questionId + "']").text(data.votes);
+                }
+            });
+        });
+
+        // Обработчик клика на кнопке увеличения голоса
+        $(".incr-vote-answer-btn").click(function() {
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            var answerId = $(this).data("answer-id");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'question:incr_vote_answer' 0 %}".replace('0', answerId),
+                data: {
+                        csrfmiddlewaretoken: csrftoken  // Передаем CSRF-токен в запросе
+                        },
+                dataType: "json",
+                success: function(data) {
+                    // Обновляем отображение количества голосов
+                    $("h5[data-answer-id='" + answerId + "']").text(data.votes);
+                }
+            });
+        });
+
+        // Обработчик клика на кнопке уменьшения голоса
+        $(".decr-vote-answer-btn").click(function() {
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            var answerId = $(this).data("answer-id");
+            $.ajax({
+                type: "POST",
+                url: "{% url 'question:decr_vote_answer' 0 %}".replace('0', answerId),
+                data: {
+                        csrfmiddlewaretoken: csrftoken  // Передаем CSRF-токен в запросе
+                        },
+                dataType: "json",
+                success: function(data) {
+                    // Обновляем отображение количества голосов
+                    $("h5[data-answer-id='" + answerId + "']").text(data.votes);
+                }
+            });
+        });
+    });
+</script>
+
 
 {% endblock %}
