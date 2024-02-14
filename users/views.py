@@ -20,13 +20,10 @@ class UserLoginView(LoginView):
     template_name = "users/login_form.html"
     form_class = UserAuthenticationForm
     redirect_authenticated_user = True
-    success_url = reverse_lazy("index")
 
 
 class UserLogoutView(LogoutView):
     pass
-    # template_name = "users/login_form.html"
-    # success_url = reverse_lazy("index")
 
 
 class UserTemplateView(TemplateView):
