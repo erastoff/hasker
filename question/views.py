@@ -58,7 +58,7 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         question = context["question"]
-        context["answers"] = question.answers.all()
+        context["answers"] = question.answers.all().order_by("-is_right", "-votes")
         return context
 
 
