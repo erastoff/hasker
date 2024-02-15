@@ -10,7 +10,12 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-4" style="padding-top: 50px;">
-          <img src="{{ user.image.url }}" class="img-fluid square-image" style="max-width: 200px; max-height: 200px;" alt="Square image">
+{#          <img src="{{ user.image.url }}" class="img-fluid square-image" style="max-width: 200px; max-height: 200px;" alt="Square image">#}
+            {% if user.image.url != None %}
+                <img src="{{ user.image.url }}" class="img-fluid square-image" style="max-width: 50px; max-height: 50px;" alt="Square image">
+            {% else %}
+                <img src="/media/users_images/def_user.png" class="img-fluid square-image" style="max-width: 50px; max-height: 50px;" alt="Square image">
+            {% endif %}
         </div>
         <div class="col-8" style="padding-top: 50px;">
           <h1>User <strong>{{ user.username }}</strong></h1>
