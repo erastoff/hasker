@@ -17,11 +17,8 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-2">
-            <!-- Кнопка для увеличения голоса -->
             <button class="btn btn-outline-warning incr-vote-btn" data-question-id="{{ question.pk }}">Up</button>
-                <!-- Отображение количества голосов -->
                 <h5 data-question-id="{{ question.pk }}">{{ question.votes }}</h5>
-            <!-- Кнопка для уменьшения голоса -->
             <button class="btn btn-outline-dark decr-vote-btn" data-question-id="{{ question.pk }}">Down</button>
         </div>
         <div class="col-9">
@@ -43,11 +40,8 @@
                 <div class="container text-center">
                   <div class="row">
                     <div class="col-2 align-items-center">
-                                <!-- Кнопка для увеличения голоса -->
                         <button class="btn btn-outline-warning incr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Up</button>
-                            <!-- Отображение количества голосов -->
                             <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
-                        <!-- Кнопка для уменьшения голоса -->
                         <button class="btn btn-outline-dark decr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Down</button>
                         {% if answer.is_right %}
                             <h3> ★ </h3>

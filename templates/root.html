@@ -80,12 +80,12 @@
     <div class="container">
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
+                <div class="col-8">
                     {% block body %}
                     <h1>Hello Hasker</h1>
                     {% endblock %}
                 </div>
-                    <div class="col-2 fixed-column">
+                    <div class="col-4 fixed-column">
                         <div class="container text-center" style="padding-top: 80px">
                               <div class="row row-cols-1">
                                 <div class="col">
@@ -94,7 +94,15 @@
                                     </form>
                                 </div>
                                 <div class="col" style="padding-top: 80px">
-                                    <p>This column will remain fixed on the right side of the page.</p>
+                                            <div class="popular-questions">
+                                                <h5>Trending</h5>
+                                                <ul>
+                                                    {% for question in popular_questions %}
+                                                        <div style="text-align: left;"><h6><span class="badge bg-secondary">{{ question.votes }} </span><a href="{% url 'question:question_detail' question.pk %}">{{ question.title }}</a></h6></div>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                    </div>
                                 </div>
                               </div>
                         </div>
