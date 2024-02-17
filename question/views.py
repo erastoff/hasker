@@ -74,6 +74,7 @@ class QuestionSearchView(ListView):
     model = Question
     template_name = "question/question_search.html"
     context_object_name = "search_results"
+    paginate_by = 20
 
     def get_queryset(self):
         query = self.request.GET.get("q")
@@ -92,6 +93,7 @@ class QuestionTagSearchView(ListView):
     model = Question
     template_name = "question/question_search.html"
     context_object_name = "search_tag_results"
+    paginate_by = 20
 
     def get_queryset(self):
         tag_word = self.kwargs.get("tag_word")
