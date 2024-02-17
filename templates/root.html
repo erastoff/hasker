@@ -95,12 +95,24 @@
                                 </div>
                                 <div class="col" style="padding-top: 80px">
                                             <div class="popular-questions">
-                                                <h5>Trending</h5>
-                                                <ul>
-                                                    {% for question in popular_questions %}
-                                                        <div style="text-align: left;"><h6><span class="badge bg-secondary">{{ question.votes }} </span><a href="{% url 'question:question_detail' question.pk %}">{{ question.title }}</a></h6></div>
-                                                    {% endfor %}
-                                                </ul>
+                                                <h4>Trending</h4>
+                                                {% for question in popular_questions %}
+                                                    <div class="container text-center">
+                                                      <div class="row">
+                                                        <div class="col-2">
+                                                            <div style="text-align: justify;"><h6><span class="badge bg-secondary">{{ question.votes }}</span></h6></div>
+                                                        </div>
+                                                        <div class="col-8">
+                                                          <a href="{% url 'question:question_detail' question.pk %}">{{ question.title }}</a></h6>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                {% endfor %}
+{#                                                    <ul>#}
+{#                                                    {% for question in popular_questions %}#}
+{#                                                        <div style="text-align: left;"><h6><span class="badge bg-secondary">{{ question.votes }} </span><a href="{% url 'question:question_detail' question.pk %}">{{ question.title }}</a></h6></div>#}
+{#                                                    {% endfor %}#}
+{#                                                </ul>#}
                                             </div>
                                     </div>
                                 </div>
