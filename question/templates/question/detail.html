@@ -26,12 +26,11 @@
             <div class="container text-center">
               <div class="row row-cols-auto">
                 {% for tag in question.tags.all %}
-{#                    <div class="badge bg-secondary">{{ tag.tag_word }}</div>#}
-                    <span class="badge rounded-pill text-bg-warning">{{ tag.tag_word }}</span>
+                    <a class="btn rounded-pill text-bg-warning btn-sm" href="{% url 'question:question_tag_search' tag.tag_word %}" role="button">{{ tag.tag_word }}</a>
                  {% endfor %}
-                  <p class="text-lg-end">
-                  <div class="badge bg-secondary ms-auto">{{ question.author }}</div></p>
+                  <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ question.author }}</a>
               </div>
+                <br>
             </div>
         </div>
       <hr>
@@ -52,9 +51,9 @@
                             <p style="text-align: justify;">{{ answer.content }}</p>
                                 <div class="container text-center">
                                   <div class="row row-cols-auto">
-                                      <p class="text-lg-end">
-                                      <div class="badge bg-secondary ms-auto">{{ answer.author }}</div></p>
+                                      <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ answer.author }}</a>
                                   </div>
+                                    <br>
                                 </div>
                         </div>
                     </div>
