@@ -13,21 +13,31 @@
             <ul class="nav nav-pills">
                 <form method="post" class="nav-pills-form">
                 {% csrf_token %}
-                <li class="nav-item">
-                    <button type="submit" class="nav-link {% if active_button == 'option1' %}active{% endif %}" name="filter_option" value="option1">New questions</button>
-                </li>
+                    <li class="nav-item">
+                        <button type="submit"
+                                class="nav-link {% if active_button == 'option1' %}active{% endif %}"
+                                name="filter_option"
+                                value="option1">
+                            New questions
+                        </button>
+                    </li>
                 </form>
                 <form method="post" class="nav-pills-form">
-                {% csrf_token %}
-                <li class="nav-item">
-                    <button type="submit" class="nav-link {% if active_button == 'option2' %}active{% endif %}" name="filter_option" value="option2">Hot questions</button>
-                </li>
+                    {% csrf_token %}
+                    <li class="nav-item">
+                        <button type="submit"
+                                class="nav-link {% if active_button == 'option2' %}active{% endif %}"
+                                name="filter_option"
+                                value="option2">
+                            Hot questions
+                        </button>
+                    </li>
                 </form>
             </ul>
         </div>
     </nav>
 </div>
-     <hr>
+    <hr>
 <br>
   {% if question_list %}
     <ul>
@@ -45,7 +55,11 @@
                 <div class="col-6">
                     <h3><a href="{% url "question:question_detail" question.pk %}">{{ question.title }}</a></h3>
                     {% for tag in question.tags.all %}
-                        <a class="btn rounded-pill text-bg-warning btn-sm" href="{% url 'question:question_tag_search' tag.tag_word %}" role="button">{{ tag.tag_word }}</a>
+                        <a class="btn rounded-pill text-bg-warning btn-sm"
+                           href="{% url 'question:question_tag_search' tag.tag_word %}"
+                           role="button">
+                            {{ tag.tag_word }}
+                        </a>
                     {% endfor %}
                 </div>
                 <div class="col-2">

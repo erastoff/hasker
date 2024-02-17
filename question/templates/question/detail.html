@@ -23,15 +23,52 @@
         </div>
         <div class="col-9">
             <h6><div style="text-align: justify;">{{ question.content }}</div></h6>
-            <div class="container text-center">
-              <div class="row row-cols-auto">
-                {% for tag in question.tags.all %}
-                    <a class="btn rounded-pill text-bg-warning btn-sm" href="{% url 'question:question_tag_search' tag.tag_word %}" role="button">{{ tag.tag_word }}</a>
-                 {% endfor %}
-                  <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ question.author }}</a>
-              </div>
-                <br>
+{#            <div class="container text-center">#}
+{#              <div class="row row-cols-auto">#}
+{#                {% for tag in question.tags.all %}#}
+{#                    <a class="btn rounded-pill text-bg-warning btn-sm" href="{% url 'question:question_tag_search' tag.tag_word %}" role="button">{{ tag.tag_word }}</a>#}
+{#                 {% endfor %}#}
+{#                  <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ question.author }}</a>#}
+{#                  <img src="{{ question.author.image.url }}" class="img-fluid square-image" style="max-width: 30px; max-height: 30px; padding-left: 2px;" alt="Square image">#}
+{#              </div>#}
+{#                <br>#}
+{#            </div>#}
+            <div class="d-flex align-items-center">
+                <div>
+                    <div class="btn-group" role="group" aria-label="Tags">
+                        {% for tag in question.tags.all %}
+                            <a class="btn rounded-pill text-bg-warning btn-sm"
+                               href="{% url 'question:question_tag_search' tag.tag_word %}"
+                               role="button"
+                               style="margin-right: 5px;">{{ tag.tag_word }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                    <div class="flex-grow-1"></div>
+                <div class="ml-auto d-flex align-items-center">
+                    {% if question.author.image.url != None %}
+                        <img src="{{ question.author.image.url }}"
+                             alt="Avatar"
+                             class="rounded-circle"
+                             width="50"
+                             height="50"
+                             style="margin-right: 5px;">
+                    {% else %}
+                        <img src="/media/users_images/def_user.png"
+                             alt="Avatar"
+                             class="rounded-circle"
+                             width="50"
+                             height="50"
+                             style="margin-right: 5px;">
+                    {% endif %}
+                    <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto"
+                       href="#"
+                       style="margin-right: 5px;">
+                        {{ question.author }}
+                    </a>
+                </div>
             </div>
+        <br>
         </div>
       <hr>
         {% if answers %}
@@ -39,9 +76,13 @@
                 <div class="container text-center">
                   <div class="row">
                     <div class="col-2 align-items-center">
-                        <button class="btn btn-outline-warning incr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Up</button>
+                        <button class="btn btn-outline-warning incr-vote-answer-btn" data-answer-id="{{ answer.pk }}">
+                            Up
+                        </button>
                             <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
-                        <button class="btn btn-outline-dark decr-vote-answer-btn" data-answer-id="{{ answer.pk }}">Down</button>
+                        <button class="btn btn-outline-dark decr-vote-answer-btn" data-answer-id="{{ answer.pk }}">
+                            Down
+                        </button>
                         {% if answer.is_right %}
                             <h3> ★ </h3>
                         {% endif %}
@@ -50,9 +91,37 @@
                         <div class="container">
                             <p style="text-align: justify;">{{ answer.content }}</p>
                                 <div class="container text-center">
-                                  <div class="row row-cols-auto">
-                                      <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ answer.author }}</a>
-                                  </div>
+{#                                  <div class="row row-cols-auto">#}
+{#                                      <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto" href="#" role="button">{{ answer.author }}</a>#}
+{#                                  </div>#}
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <div class="btn-group" role="group" aria-label="Tags">
+                                                </div>
+                                            </div>
+                                                <div class="flex-grow-1"></div>
+                                            <div class="ml-auto d-flex align-items-center">
+                                                {% if answer.author.image.url != None %}
+                                                    <img src="{{ answer.author.image.url }}"
+                                                         alt="Avatar"
+                                                         class="rounded-circle"
+                                                         width="50"
+                                                         height="50"
+                                                         style="margin-right: 5px;">
+                                                {% else %}
+                                                    <img src="/media/users_images/def_user.png"
+                                                         alt="Avatar"
+                                                         class="rounded-circle"
+                                                         width="50"
+                                                         height="50"
+                                                         style="margin-right: 5px;">
+                                                {% endif %}
+                                                <a class="btn rounded-pill text-bg-secondary btn-sm ms-auto"
+                                                   href="#">
+                                                    {{ answer.author }}
+                                                </a>
+                                            </div>
+                                        </div>
                                     <br>
                                 </div>
                         </div>
