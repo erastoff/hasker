@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -35,6 +37,7 @@ class QuestionListView(ListView):
             )
         else:
             questions = Question.objects.annotate(num_answers=Count("answers"))
+            # questions = random.sample(questions)
         context = {"question_list": questions, "active_button": active_button}
         return render(request, self.template_name, context)
 
@@ -63,7 +66,9 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         question = context["question"]
-        context["answers"] = question.answers.all().order_by("-is_right", "-votes")
+        context["answers"] = question.answers.all().order_by(
+            "-is_right", "-votes", "-created_at"
+        )
         return context
 
 
@@ -75,9 +80,13 @@ class QuestionSearchView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         if query:
-            return Question.objects.filter(
-                Q(title__icontains=query) | Q(content__icontains=query)
-            ).annotate(num_answers=Count("answers"))
+            return (
+                Question.objects.filter(
+                    Q(title__icontains=query) | Q(content__icontains=query)
+                )
+                .annotate(num_answers=Count("answers"))
+                .order_by("-votes", "-created_at")
+            )
         return Question.objects.none()
 
 
@@ -88,8 +97,10 @@ class QuestionTagSearchView(ListView):
 
     def get_queryset(self):
         tag_word = self.kwargs.get("tag_word")
-        queryset = Question.objects.filter(tags__tag_word=tag_word).annotate(
-            num_answers=Count("answers")
+        queryset = (
+            Question.objects.filter(tags__tag_word=tag_word)
+            .annotate(num_answers=Count("answers"))
+            .order_by("-votes", "-created_at")
         )
         return queryset
 
