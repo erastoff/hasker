@@ -11,11 +11,19 @@ User = get_user_model()
 class RegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "email", "password1", "password2", "image")
 
     username = forms.CharField(help_text="Enter your desired username")
     password1 = forms.CharField(
         help_text="Enter your passsword", widget=forms.PasswordInput(), label="Password"
+    )
+    image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(
+            attrs={
+                "class": "custom-file-input",
+            }
+        ),
     )
 
     def __init__(self, *args, **kwargs):
