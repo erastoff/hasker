@@ -50,3 +50,71 @@ class Answer(models.Model):
     def decr_vote(self):
         self.votes -= 1
         self.save()
+
+
+class QuestionVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(
+        Question, related_name="qvotes", on_delete=models.CASCADE
+    )
+    vote_type = models.CharField(
+        max_length=1,
+        choices=[("+", "Upvote"), ("0", "Unvoted"), ("-", "Downvote")],
+        default="0",
+    )
+
+    class Meta:
+        unique_together = [
+            "user",
+            "question",
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} voted {self.vote_type} for {self.question}"
+
+    def upvote(self):
+        if self.vote_type == "-":
+            self.vote_type = "0"
+        elif self.vote_type == "0":
+            self.vote_type = "+"
+        self.save()
+
+    def downvote(self):
+        if self.vote_type == "+":
+            self.vote_type = "0"
+        elif self.vote_type == "0":
+            self.vote_type = "-"
+        self.save()
+
+
+class AnswerVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, related_name="avotes", on_delete=models.CASCADE)
+    vote_type = models.CharField(
+        max_length=1,
+        choices=[("+", "Upvote"), ("0", "Unvoted"), ("-", "Downvote")],
+        default="0",
+    )
+
+    class Meta:
+        unique_together = [
+            "user",
+            "answer",
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} voted {self.vote_type} for {self.answer}"
+
+    def upvote(self):
+        if self.vote_type == "-":
+            self.vote_type = "0"
+        elif self.vote_type == "0":
+            self.vote_type = "+"
+        self.save()
+
+    def downvote(self):
+        if self.vote_type == "+":
+            self.vote_type = "0"
+        elif self.vote_type == "0":
+            self.vote_type = "-"
+        self.save()

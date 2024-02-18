@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView
 
 from question.forms import QuestionCreateForm
-from question.models import Question, Answer
+from question.models import Question, Answer, QuestionVote, AnswerVote
 
 
 class QuestionListView(ListView):
@@ -119,24 +119,52 @@ def create_answer(request, pk):
 
 
 def incr_vote_question(request, pk):
-    question = get_object_or_404(Question, pk=pk)
-    question.incr_vote()
+    question = Question.objects.prefetch_related("qvotes").get(pk=pk)
+    q_vote = question.qvotes.first()
+    if q_vote:
+        if q_vote.vote_type != "+":
+            q_vote.upvote()
+            question.incr_vote()
+    else:
+        QuestionVote.objects.create(user=request.user, question_id=pk, vote_type="+")
+        question.incr_vote()
     return JsonResponse({"votes": question.votes})
 
 
 def decr_vote_question(request, pk):
-    question = get_object_or_404(Question, pk=pk)
-    question.decr_vote()
+    question = Question.objects.prefetch_related("qvotes").get(pk=pk)
+    q_vote = question.qvotes.first()
+    if q_vote:
+        if q_vote.vote_type != "-":
+            q_vote.downvote()
+            question.decr_vote()
+    else:
+        QuestionVote.objects.create(user=request.user, question_id=pk, vote_type="-")
+        question.decr_vote()
     return JsonResponse({"votes": question.votes})
 
 
 def incr_vote_answer(request, pk):
-    answer = get_object_or_404(Answer, pk=pk)
-    answer.incr_vote()
+    answer = Answer.objects.prefetch_related("avotes").get(pk=pk)
+    a_vote = answer.avotes.first()
+    if a_vote:
+        if a_vote.vote_type != "+":
+            a_vote.upvote()
+            answer.incr_vote()
+    else:
+        AnswerVote.objects.create(user=request.user, answer_id=pk, vote_type="+")
+        answer.incr_vote()
     return JsonResponse({"votes": answer.votes})
 
 
 def decr_vote_answer(request, pk):
-    answer = get_object_or_404(Answer, pk=pk)
-    answer.decr_vote()
+    answer = Answer.objects.prefetch_related("avotes").get(pk=pk)
+    a_vote = answer.avotes.first()
+    if a_vote:
+        if a_vote.vote_type != "-":
+            a_vote.downvote()
+            answer.decr_vote()
+    else:
+        AnswerVote.objects.create(user=request.user, answer_id=pk, vote_type="-")
+        answer.decr_vote()
     return JsonResponse({"votes": answer.votes})
