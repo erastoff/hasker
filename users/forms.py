@@ -48,3 +48,16 @@ class UserAuthenticationForm(AuthenticationForm):
         for field in self.fields.items():
             widget: Widget = field[1].widget
             widget.attrs["class"] = "form-control"
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "image"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs["readonly"] = True
+        for field in self.fields.items():
+            widget: Widget = field[1].widget
+            widget.attrs["class"] = "form-control"

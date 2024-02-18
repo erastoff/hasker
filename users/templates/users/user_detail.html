@@ -18,21 +18,29 @@
             {% endif %}
         </div>
         <div class="col-8" style="padding-top: 50px;">
-          <h1>User <strong>{{ user.username }}</strong></h1>
-            <div>
-                <h3> Profile </h3>
-                  <div>
-                      <div class="row">
-                        <div class="col col-2">
-                          <strong> Email: </strong>
-                        </div>
-                        <div class="col">
-                          {{ user.email }}
-                        </div>
-                      </div>
-                  </div>
-            </div>
+{#          <h1>User <strong>{{ user.username }}</strong></h1>#}
+{#            <div>#}
+{#                <h3> Profile </h3>#}
+{#                  <div>#}
+{#                      <div class="row">#}
+{#                        <div class="col col-2">#}
+{#                          <strong> Email: </strong>#}
+{#                        </div>#}
+{#                        <div class="col">#}
+{#                          {{ user.email }}#}
+{#                        </div>#}
+{#                      </div>#}
+{#                  </div>#}
+{#            </div>#}
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Update">
+            </form>
         </div>
+
+
+
       </div>
     </div>
 
