@@ -76,6 +76,12 @@
                         {% if answer.is_right %}
                             <h3> ★ </h3>
                         {% endif %}
+                        {% if choose_right and question.author == user %}
+                            <a class="btn btn-outline-success btn-sm"
+                               href="{% url "question:right_answer" question.pk answer.pk %}"
+                               role="button"
+                               style="margin: 5px;">Is right?</a>
+                        {% endif %}
                     </div>
                     <div class="col-9">
                         <div class="container">

@@ -67,6 +67,9 @@ class QuestionDetailView(DetailView):
         context["answers"] = question.answers.all().order_by(
             "-is_right", "-votes", "-created_at"
         )
+        context["choose_right"] = False
+        if context["answers"] and context["answers"].first().is_right != True:
+            context["choose_right"] = True
         return context
 
 
@@ -107,9 +110,6 @@ class QuestionTagSearchView(ListView):
 
 def create_answer(request, pk):
     if request.method == "POST":
-        print("request: ", request)
-        print("request method: ", request.method)
-        print("request text: ", request.POST.get("text_input"))
         Answer.objects.create(
             content=request.POST.get("text_input"),
             author=request.user,
@@ -168,3 +168,9 @@ def decr_vote_answer(request, pk):
         AnswerVote.objects.create(user=request.user, answer_id=pk, vote_type="-")
         answer.decr_vote()
     return JsonResponse({"votes": answer.votes})
+
+
+def answer_is_right(request, question_pk, answer_pk):
+    answer = Answer.objects.get(pk=answer_pk)
+    answer.right()
+    return redirect("question:question_detail", pk=question_pk)

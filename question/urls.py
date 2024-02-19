@@ -11,6 +11,7 @@ from question.views import (
     decr_vote_question,
     decr_vote_answer,
     incr_vote_answer,
+    answer_is_right,
 )
 
 app_name = "question"
@@ -39,5 +40,10 @@ urlpatterns = [
         "question/<int:pk>/decr_answer_vote/",
         decr_vote_answer,
         name="decr_vote_answer",
+    ),
+    path(
+        "question/<int:question_pk>/is_right/<int:answer_pk>/",
+        answer_is_right,
+        name="right_answer",
     ),
 ]

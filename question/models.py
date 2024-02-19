@@ -51,6 +51,10 @@ class Answer(models.Model):
         self.votes -= 1
         self.save()
 
+    def right(self):
+        self.is_right = True
+        self.save()
+
 
 class QuestionVote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
