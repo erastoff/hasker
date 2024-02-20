@@ -64,12 +64,29 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         question = context["question"]
+
         context["answers"] = question.answers.all().order_by(
             "-is_right", "-votes", "-created_at"
         )
+
+        # context["answers"] = (
+        #     Answer.objects.filter(question=question)
+        #     .order_by("-is_right", "-votes", "-created_at")
+        #     .annotate(a_vote_type=AnswerVote.objects.get(pk=))
+        # )
+
         context["choose_right"] = False
         if context["answers"] and context["answers"].first().is_right != True:
             context["choose_right"] = True
+
+        q_vote_type = QuestionVote.objects.all().get(question=question).vote_type
+        context["q_vote_type"] = q_vote_type
+
+        a_vote_type = {}
+        for answer in context["answers"]:
+            a_vote_type[answer.pk] = AnswerVote.objects.get(answer=answer).vote_type
+        print(a_vote_type)
+        context["a_vote_type"] = a_vote_type
         return context
 
 
