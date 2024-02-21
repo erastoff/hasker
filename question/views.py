@@ -1,4 +1,6 @@
+from django.conf.global_settings import EMAIL_HOST_USER
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.db.models import Count, Q
@@ -126,10 +128,18 @@ class QuestionTagSearchView(ListView):
 
 def create_answer(request, pk):
     if request.method == "POST":
-        Answer.objects.create(
+        answer = Answer.objects.create(
             content=request.POST.get("text_input"),
             author=request.user,
             question=Question.objects.get(pk=pk),
+        )
+        send_mail(
+            f"New answer added, {answer.question.author.username}",
+            f"""New answer added to your question '{answer.question.title}':\n
+            '{answer.content}'""",
+            EMAIL_HOST_USER,
+            ["yuriy.erastov@yandex.ru"],
+            fail_silently=False,
         )
         return redirect("question:question_detail", pk=pk)
 
