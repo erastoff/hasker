@@ -2,6 +2,7 @@ asgiref==3.7.2
 black==24.1.1
 click==8.1.7
 Django==5.0.1
+djangorestframework==3.14.0
 flake8==7.0.0
 humanize==4.9.0
 mccabe==0.7.0
@@ -14,6 +15,7 @@ psycopg2-binary==2.9.9
 pycodestyle==2.11.1
 pyflakes==3.2.0
 python-decouple==3.8
+pytz==2024.1
 sqlparse==0.4.4
 tomli==2.0.1
 typing_extensions==4.9.0

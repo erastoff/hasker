@@ -25,6 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("question.urls", namespace="question")),
     path("users/", include("users.urls", namespace="users")),
+    path("api/", include("api.urls", namespace="api")),
 ]
 
 if settings.DEBUG:
