@@ -18,10 +18,14 @@
       <div class="row">
         <div class="col-2">
             <button class="btn btn-warning incr-vote-btn"
-                    data-question-id="{{ question.pk }}">Up</button>
-                <h5 data-question-id="{{ question.pk }}">{{ question.votes }}</h5>
+                    data-question-id="{{ question.pk }}" {% if q_vote_type == "+" %}disabled{% endif %}>
+                Up
+            </button>
+            <h5 data-question-id="{{ question.pk }}">{{ question.votes }}</h5>
             <button class="btn btn-dark decr-vote-btn"
-                    data-question-id="{{ question.pk }}">Down</button>
+                    data-question-id="{{ question.pk }}" {% if q_vote_type == "-" %}disabled{% endif %}>
+                Down
+            </button>
         </div>
         <div class="col-9">
             <h6><div style="text-align: justify;">{{ question.content }}</div></h6>
@@ -68,11 +72,19 @@
                 <div class="container text-center">
                   <div class="row">
                     <div class="col-2 align-items-center">
-                        <button class="btn btn-warning incr-vote-answer-btn"
-                                data-answer-id="{{ answer.pk }}">Up</button>
-                        <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
-                        <button class="btn btn-dark decr-vote-answer-btn"
-                                data-answer-id="{{ answer.pk }}">Down</button>
+                        {% for key, value in a_vote_type.items %}
+                            {% if key == answer.pk %}
+                                <button class="btn btn-warning incr-vote-answer-btn"
+                                        data-answer-id="{{ answer.pk }}" {% if value == "+" %}disabled{% endif %}>
+                                    Up
+                                </button>
+                                <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
+                                <button class="btn btn-dark decr-vote-answer-btn"
+                                        data-answer-id="{{ answer.pk }}" {% if value == "-" %}disabled{% endif %}>
+                                    Down
+                                </button>
+                            {% endif %}
+                        {% endfor %}
                         {% if answer.is_right %}
                             <h3> ★ </h3>
                         {% endif %}
