@@ -27,7 +27,7 @@ class QuestionCreateForm(forms.ModelForm):
 
     def clean_tags(self):
         tags_str = self.cleaned_data["tags"]
-        tags_data = [tag.strip() for tag in tags_str.split(",") if tag.strip()]
+        tags_data = [tag.strip().lower() for tag in tags_str.split(",") if tag.strip()]
         if len(tags_data) > 3:
             raise forms.ValidationError("You can't add more than 3 tags.")
 
