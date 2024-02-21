@@ -69,24 +69,23 @@ class QuestionDetailView(DetailView):
             "-is_right", "-votes", "-created_at"
         )
 
-        # context["answers"] = (
-        #     Answer.objects.filter(question=question)
-        #     .order_by("-is_right", "-votes", "-created_at")
-        #     .annotate(a_vote_type=AnswerVote.objects.get(pk=))
-        # )
-
         context["choose_right"] = False
         if context["answers"] and context["answers"].first().is_right != True:
             context["choose_right"] = True
 
-        q_vote_type = QuestionVote.objects.all().get(question=question).vote_type
+        q_vote_type = QuestionVote.objects.get_or_create(
+            question=question, user=self.request.user
+        )[0].vote_type
         context["q_vote_type"] = q_vote_type
 
         a_vote_type = {}
         for answer in context["answers"]:
-            a_vote_type[answer.pk] = AnswerVote.objects.get(answer=answer).vote_type
-        print(a_vote_type)
+            a_vote_type[answer.pk] = AnswerVote.objects.get_or_create(
+                answer=answer, user=self.request.user
+            )[0].vote_type
+            # a_vote_type[answer.pk] = item.vote_type
         context["a_vote_type"] = a_vote_type
+
         return context
 
 
@@ -143,9 +142,11 @@ def incr_vote_question(request, pk):
             q_vote.upvote()
             question.incr_vote()
     else:
-        QuestionVote.objects.create(user=request.user, question_id=pk, vote_type="+")
+        q_vote = QuestionVote.objects.create(
+            user=request.user, question_id=pk, vote_type="+"
+        )
         question.incr_vote()
-    return JsonResponse({"votes": question.votes})
+    return JsonResponse({"votes": question.votes, "vote_type": q_vote.vote_type})
 
 
 def decr_vote_question(request, pk):
@@ -156,9 +157,11 @@ def decr_vote_question(request, pk):
             q_vote.downvote()
             question.decr_vote()
     else:
-        QuestionVote.objects.create(user=request.user, question_id=pk, vote_type="-")
+        q_vote = QuestionVote.objects.create(
+            user=request.user, question_id=pk, vote_type="-"
+        )
         question.decr_vote()
-    return JsonResponse({"votes": question.votes})
+    return JsonResponse({"votes": question.votes, "vote_type": q_vote.vote_type})
 
 
 def incr_vote_answer(request, pk):
@@ -169,9 +172,11 @@ def incr_vote_answer(request, pk):
             a_vote.upvote()
             answer.incr_vote()
     else:
-        AnswerVote.objects.create(user=request.user, answer_id=pk, vote_type="+")
+        a_vote = AnswerVote.objects.create(
+            user=request.user, answer_id=pk, vote_type="+"
+        )
         answer.incr_vote()
-    return JsonResponse({"votes": answer.votes})
+    return JsonResponse({"votes": answer.votes, "vote_type": a_vote.vote_type})
 
 
 def decr_vote_answer(request, pk):
@@ -182,9 +187,11 @@ def decr_vote_answer(request, pk):
             a_vote.downvote()
             answer.decr_vote()
     else:
-        AnswerVote.objects.create(user=request.user, answer_id=pk, vote_type="-")
+        a_vote = AnswerVote.objects.create(
+            user=request.user, answer_id=pk, vote_type="-"
+        )
         answer.decr_vote()
-    return JsonResponse({"votes": answer.votes})
+    return JsonResponse({"votes": answer.votes, "vote_type": a_vote.vote_type})
 
 
 def answer_is_right(request, question_pk, answer_pk):

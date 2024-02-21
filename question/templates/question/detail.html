@@ -181,7 +181,8 @@
         $(".incr-vote-btn").click(function() {
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             var questionId = $(this).data("question-id");
-            {#var btn = $(this);#}
+            var button = $(this);
+            var otherButton = $(this).closest('.col-2').find('.decr-vote-btn');
             $.ajax({
                 type: "POST",
                 url: "{% url 'question:incr_vote_question' 0 %}".replace('0', questionId),
@@ -192,11 +193,12 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-question-id='" + questionId + "']").text(data.votes);
-
-                    {#if (data.active_button) {#}
-                    {#    btn.addClass('btn-success');#}
-                    {##}
-                    {#}#}
+                    otherButton.removeClass('btn-outline-dark').addClass('btn-dark');
+                    if (String(data.vote_type) === '+') {
+                        button.removeClass('btn-warning').addClass('btn-outline-warning');
+                    } else {
+                        button.removeClass('btn-outline-warning').addClass('btn-warning');
+                    }
                 }
             });
         });
@@ -205,6 +207,8 @@
         $(".decr-vote-btn").click(function() {
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             var questionId = $(this).data("question-id");
+            var button = $(this);
+            var otherButton = $(this).closest('.col-2').find('.incr-vote-btn');
             $.ajax({
                 type: "POST",
                 url: "{% url 'question:decr_vote_question' 0 %}".replace('0', questionId),
@@ -215,6 +219,12 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-question-id='" + questionId + "']").text(data.votes);
+                    otherButton.removeClass('btn-outline-warning').addClass('btn-warning');
+                    if (String(data.vote_type) === '-') {
+                        button.removeClass('btn-dark').addClass('btn-outline-dark');
+                    } else {
+                        button.removeClass('btn-outline-dark').addClass('btn-dark');
+                    }
                 }
             });
         });
@@ -223,6 +233,8 @@
         $(".incr-vote-answer-btn").click(function() {
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             var answerId = $(this).data("answer-id");
+            var button = $(this);
+            var otherButton = $(this).closest('.col-2').find('.decr-vote-answer-btn');
             $.ajax({
                 type: "POST",
                 url: "{% url 'question:incr_vote_answer' 0 %}".replace('0', answerId),
@@ -233,6 +245,12 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-answer-id='" + answerId + "']").text(data.votes);
+                    otherButton.removeClass('btn-outline-dark').addClass('btn-dark');
+                    if (String(data.vote_type) === '+') {
+                        button.removeClass('btn-warning').addClass('btn-outline-warning');
+                    } else {
+                        button.removeClass('btn-outline-warning').addClass('btn-warning');
+                    }
                 }
             });
         });
@@ -241,6 +259,8 @@
         $(".decr-vote-answer-btn").click(function() {
             var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
             var answerId = $(this).data("answer-id");
+            var button = $(this);
+            var otherButton = $(this).closest('.col-2').find('.incr-vote-answer-btn');
             $.ajax({
                 type: "POST",
                 url: "{% url 'question:decr_vote_answer' 0 %}".replace('0', answerId),
@@ -251,6 +271,12 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-answer-id='" + answerId + "']").text(data.votes);
+                    otherButton.removeClass('btn-outline-warning').addClass('btn-warning');
+                    if (String(data.vote_type) === '-') {
+                        button.removeClass('btn-dark').addClass('btn-outline-dark');
+                    } else {
+                        button.removeClass('btn-outline-dark').addClass('btn-dark');
+                    }
                 }
             });
         });
