@@ -17,21 +17,11 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-2">
-            {% if q_vote_type == '+' %}
-            <button class="btn btn-outline-warning incr-vote-btn"
-                    data-question-id="{{ question.pk }}">Up</button>
-            {% else %}
             <button class="btn btn-warning incr-vote-btn"
                     data-question-id="{{ question.pk }}">Up</button>
-            {% endif %}
                 <h5 data-question-id="{{ question.pk }}">{{ question.votes }}</h5>
-            {% if q_vote_type == '-' %}
-            <button class="btn btn-outline-dark decr-vote-btn"
-                    data-question-id="{{ question.pk }}">Down</button>
-            {% else %}
             <button class="btn btn-dark decr-vote-btn"
                     data-question-id="{{ question.pk }}">Down</button>
-            {% endif %}
         </div>
         <div class="col-9">
             <h6><div style="text-align: justify;">{{ question.content }}</div></h6>
@@ -78,25 +68,11 @@
                 <div class="container text-center">
                   <div class="row">
                     <div class="col-2 align-items-center">
-                        {% for key, value in a_vote_type.items %}
-                            {% if key == answer.pk %}
-                                {% if value == '+' %}
-                                    <button class="btn btn-outline-warning incr-vote-answer-btn"
-                                            data-answer-id="{{ answer.pk }}">Up</button>
-                                {% else %}
-                                    <button class="btn btn-warning incr-vote-answer-btn"
-                                            data-answer-id="{{ answer.pk }}">Up</button>
-                                {% endif %}
-                                    <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
-                                {% if value == '-' %}
-                                    <button class="btn btn-outline-dark decr-vote-answer-btn"
-                                            data-answer-id="{{ answer.pk }}">Down</button>
-                                {% else %}
-                                    <button class="btn btn-dark decr-vote-answer-btn"
-                                            data-answer-id="{{ answer.pk }}">Down</button>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
+                        <button class="btn btn-warning incr-vote-answer-btn"
+                                data-answer-id="{{ answer.pk }}">Up</button>
+                        <h5 data-answer-id="{{ answer.pk }}">{{ answer.votes }}</h5>
+                        <button class="btn btn-dark decr-vote-answer-btn"
+                                data-answer-id="{{ answer.pk }}">Down</button>
                         {% if answer.is_right %}
                             <h3> ★ </h3>
                         {% endif %}
@@ -193,11 +169,11 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-question-id='" + questionId + "']").text(data.votes);
-                    otherButton.removeClass('btn-outline-dark').addClass('btn-dark');
+                    otherButton.prop('disabled', false);
                     if (String(data.vote_type) === '+') {
-                        button.removeClass('btn-warning').addClass('btn-outline-warning');
+                        button.prop('disabled', true);
                     } else {
-                        button.removeClass('btn-outline-warning').addClass('btn-warning');
+                        button.prop('disabled', false);
                     }
                 }
             });
@@ -219,11 +195,11 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-question-id='" + questionId + "']").text(data.votes);
-                    otherButton.removeClass('btn-outline-warning').addClass('btn-warning');
+                    otherButton.prop('disabled', false);
                     if (String(data.vote_type) === '-') {
-                        button.removeClass('btn-dark').addClass('btn-outline-dark');
+                        button.prop('disabled', true);
                     } else {
-                        button.removeClass('btn-outline-dark').addClass('btn-dark');
+                        button.prop('disabled', false);
                     }
                 }
             });
@@ -245,11 +221,11 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-answer-id='" + answerId + "']").text(data.votes);
-                    otherButton.removeClass('btn-outline-dark').addClass('btn-dark');
+                    otherButton.prop('disabled', false);
                     if (String(data.vote_type) === '+') {
-                        button.removeClass('btn-warning').addClass('btn-outline-warning');
+                        button.prop('disabled', true);
                     } else {
-                        button.removeClass('btn-outline-warning').addClass('btn-warning');
+                        button.prop('disabled', false);
                     }
                 }
             });
@@ -271,11 +247,11 @@
                 success: function(data) {
                     // Обновляем отображение количества голосов
                     $("h5[data-answer-id='" + answerId + "']").text(data.votes);
-                    otherButton.removeClass('btn-outline-warning').addClass('btn-warning');
+                    otherButton.prop('disabled', false);
                     if (String(data.vote_type) === '-') {
-                        button.removeClass('btn-dark').addClass('btn-outline-dark');
+                        button.prop('disabled', true);
                     } else {
-                        button.removeClass('btn-outline-dark').addClass('btn-dark');
+                        button.prop('disabled', false);
                     }
                 }
             });
