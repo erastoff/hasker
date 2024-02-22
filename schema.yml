@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: Hasker API
+  version: 1.0.0
+  description: Poor Man's Stackoverflow
+paths:
+  /api-token-auth/:
+    post:
+      operationId: api_token_auth_create
+      tags:
+      - api-token-auth
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthToken'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+          description: ''
+  /api/question/{id}/:
+    get:
+      operationId: api_question_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionDetail'
+          description: ''
+  /api/question/create/:
+    post:
+      operationId: api_question_create_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Question'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Question'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+  /api/question_list/:
+    get:
+      operationId: api_question_list_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedQuestionListList'
+          description: ''
+  /api/search/:
+    get:
+      operationId: api_search_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedQuestionListList'
+          description: ''
+  /api/tag/{tag_word}/:
+    get:
+      operationId: api_tag_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: path
+        name: tag_word
+        schema:
+          type: string
+        required: true
+      tags:
+      - api
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedQuestionListList'
+          description: ''
+components:
+  schemas:
+    Answer:
+      type: object
+      properties:
+        content:
+          type: string
+        author:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        is_right:
+          type: boolean
+        votes:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - author
+      - content
+      - created_at
+    AuthToken:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        token:
+          type: string
+          readOnly: true
+      required:
+      - password
+      - token
+      - username
+    PaginatedQuestionListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionList'
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        author:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 100
+        title:
+          type: string
+          maxLength: 120
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        votes:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - author
+      - content
+      - created_at
+      - id
+      - tags
+      - title
+    QuestionDetail:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        content:
+          type: string
+        author:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        votes:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+          readOnly: true
+      required:
+      - answers
+      - author
+      - content
+      - created_at
+      - tags
+      - title
+    QuestionList:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        content:
+          type: string
+        author:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        votes:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - author
+      - content
+      - created_at
+      - tags
+      - title
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
