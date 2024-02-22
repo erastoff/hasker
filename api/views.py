@@ -1,8 +1,13 @@
 from django.db.models import Q, Count
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from question.models import Question
-from question.serializers import QuestionListSerializer, QuestionDetailSerializer
+from question.serializers import (
+    QuestionListSerializer,
+    QuestionDetailSerializer,
+    QuestionSerializer,
+)
 
 
 class QuestionListAPIView(ListAPIView):
@@ -43,3 +48,12 @@ class QuestionTagSearchAPIView(ListAPIView):
             .order_by("-votes", "-created_at")
         )
         return queryset
+
+
+class QuestionCreateAPIView(CreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
