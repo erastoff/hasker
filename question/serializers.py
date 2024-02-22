@@ -57,7 +57,10 @@ class TagListField(serializers.ListField):
         return [tag.tag_word for tag in data.all()]
 
     def to_internal_value(self, data):
-        return [tag.strip() for tag in data.split(",")]
+        if isinstance(data, str):
+            return [tag.strip() for tag in data.split(",")]
+        elif isinstance(data, list):
+            return data
 
 
 class QuestionSerializer(serializers.ModelSerializer):
